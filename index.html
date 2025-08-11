@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Budget Planer</title>
+
+  <!-- Schriftart Nunito -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light">
+  <div id="app">
+
+    <!-- Navigation -->
+    <nav class="nav">
+      <div class="brand">📊 Budget Planer</div>
+      <div class="nav-items" role="tablist" aria-label="Hauptnavigation">
+        <button class="nav-btn active" data-tab="budget" role="tab" aria-selected="true">Budgetplan</button>
+        <button class="nav-btn" data-tab="auflistung" role="tab" aria-selected="false">Auflistung</button>
+        <button class="nav-btn" data-tab="history" role="tab" aria-selected="false">Verlauf</button>
+        <button class="nav-btn" data-tab="settings" role="tab" aria-selected="false">Einstellungen</button>
+        <div class="nav-underline" aria-hidden="true"></div>
+      </div>
+    </nav>
+
+    <!-- Hauptinhalt -->
+    <main class="main">
+
+      <!-- TAB: Budgetplan -->
+      <section id="tab-budget" class="tab active" role="tabpanel">
+        <!-- Monatstitel + Datum/Zeit -->
+        <div class="panel month-header">
+          <h2 id="monthRange">—</h2>
+          <div id="currentDateTime" class="muted"></div>
+        </div>
+
+        <div class="panel top">
+          <div class="budget-input">
+            <label>Gesamtbudget (CHF)</label>
+            <div class="input-row">
+              <input type="number" id="totalBudget" min="0" step="0.01" placeholder="z.B. 1500.00">
+              <button id="saveBudget">Speichern</button>
+            </div>
+            <small class="muted">Trage hier dein gesamtes verfügbares Budget ein.</small>
+          </div>
+
+          <div class="summary">
+            <div class="remaining">
+              <div class="label">Verfügbar</div>
+              <div id="remainingAmount">—</div>
+            </div>
+            <div class="spent">
+              <div class="label">Bereits ausgegeben</div>
+              <div id="spentAmount">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel add-transaction">
+          <h3>Ausgabe hinzufügen</h3>
+          <div class="row">
+            <input type="text" id="txDesc" placeholder="Beschreibung (z.B. Kaffee)">
+            <input type="number" id="txAmount" placeholder="Betrag (CHF)" min="0" step="0.01">
+            <select id="txCategory">
+              <option value="Handyabo">Handyabo</option>
+              <option value="Fonds">Fonds</option>
+              <option value="Eltern">Eltern</option>
+              <option value="Verpflegung">Verpflegung</option>
+              <option value="Frisör">Frisör</option>
+              <option value="Sparen">Sparen</option>
+              <option value="Geschenke">Geschenke</option>
+              <option value="Sonstiges">Sonstiges</option>
+            </select>
+            <button id="addTx">Hinzufügen</button>
+          </div>
+        </div>
+
+        <div class="panel chart-panel">
+          <h3>Ausgaben nach Kategorien (Beträge)</h3>
+          <div style="height:220px"><canvas id="categoryChart"></canvas></div>
+        </div>
+      </section>
+
+      <!-- TAB: Auflistung (Prozent) -->
+      <section id="tab-auflistung" class="tab" role="tabpanel">
+        <div class="panel">
+          <h3>Prozentuale Verteilung deiner Ausgaben</h3>
+          <div style="height:260px"><canvas id="percentageChart"></canvas></div>
+        </div>
+      </section>
+
+      <!-- TAB: Verlauf -->
+      <section id="tab-history" class="tab" role="tabpanel">
+        <div class="panel history-panel">
+          <h3>Verlauf</h3>
+          <div id="historyList" class="history-list"></div>
+        </div>
+      </section>
+
+      <!-- TAB: Einstellungen -->
+      <section id="tab-settings" class="tab" role="tabpanel">
+        <div class="panel settings-panel">
+          <h3>Einstellungen</h3>
+
+          <div class="setting">
+            <label>Theme</label>
+            <div class="toggle-row">
+              <button id="toggleTheme">Wechsel: Hell / Dunkel</button>
+            </div>
+          </div>
+
+          <div class="setting">
+            <label>Farbschema</label>
+            <div class="toggle-row">
+              <select id="colorScheme" title="Farbschema wählen">
+                <option value="white-blue" style="background:linear-gradient(90deg,#fff,#0d3b66)"></option>
+                <option value="white-red" style="background:linear-gradient(90deg,#fff,#c1121f)"></option>
+                <option value="black-cyan" style="background:linear-gradient(90deg,#000,#00bcd4)"></option>
+                <option value="black-orange" style="background:linear-gradient(90deg,#000,#ff8c00)"></option>
+              </select>
+            </div>
+          </div>
+
+          <div class="setting">
+            <label>Verlauf zurücksetzen</label>
+            <div class="toggle-row">
+              <button id="resetHistory" class="danger">Verlauf löschen</button>
+            </div>
+          </div>
+
+          <div class="setting">
+            <label>Diagramm exportieren</label>
+            <div class="toggle-row">
+              <button id="exportChart">Monatsdiagramm (PNG)</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Fußbereich -->
+    <footer class="footer">
+      <div>© Budget Planer</div>
+      <div class="small-muted">Speichert lokal im Browser</div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
