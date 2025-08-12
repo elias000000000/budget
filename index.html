@@ -3,116 +3,113 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Budget Planer</title>
+  <title>Budget Planer — Mobil</title>
 
   <!-- Schriftart Nunito -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <!-- Stylesheet -->
+  <!-- Hauptstylesheet -->
   <link rel="stylesheet" href="styles.css">
 
-  <!-- Chart.js (deferred) -->
+  <!-- Chart.js, deffered damit DOM geladen ist -->
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
-  <!-- App (deferred so DOM + Chart.js sind geladen) -->
+  <!-- App-Skript (deferred) -->
   <script defer src="app.js"></script>
 </head>
 <body>
-  <div id="app" class="app-root" role="application" aria-label="Budget Planer">
+  <div id="appRoot" class="app-root" role="application" aria-label="Budget Planer">
 
-    <!-- TOP BAR -->
+    <!-- TOP: kompakter Kopfbereich -->
     <header class="topbar">
       <div class="top-left">
-        <div id="greeting" class="muted">Hallo —</div>
-        <div id="monthRange" class="title">
+        <div id="greetingLine" class="muted">Hallo —</div>
+        <div id="monthHeader" class="title">
           <span id="budgetWord">Budget</span> <span id="monthLabel">für —</span>
         </div>
       </div>
       <div class="top-right">
-        <div id="currentDate" class="muted small">—</div>
+        <div id="currentDateTime" class="muted small">—</div>
       </div>
     </header>
 
-    <!-- DAILY QUOTE -->
-    <div class="quote" aria-live="polite">
-      <span id="quoteOpen" class="quote-mark">“</span>
-      <span id="dailyQuote" class="quote-text">Spar heute, lach morgen.</span>
-      <span id="quoteClose" class="quote-mark">”</span>
+    <!-- TÄGLICHES ZITAT -->
+    <div class="quote-row" aria-live="polite">
+      <div id="quoteOpen" class="quote-mark">“</div>
+      <div id="dailyQuote" class="quote-text">Spar heute, lach morgen.</div>
+      <div id="quoteClose" class="quote-mark">”</div>
     </div>
 
-    <!-- MAIN CONTENT (Tabs) -->
+    <!-- HAUPTINHALT: Tabs als Sektionen -->
     <main class="main">
 
-      <!-- TAB: Budget -->
-      <section id="tab-budget" class="tab active" aria-hidden="false">
+      <!-- TAB: Budget (Hauptansicht) -->
+      <section id="tab-budget" class="tab active" aria-hidden="false" data-tab="budget">
         <div class="panel">
           <label for="totalBudget" class="muted">Gesamtbudget (CHF)</label>
           <div class="input-row">
-            <input id="totalBudget" type="number" inputmode="decimal" placeholder="z.B. 1500.00" />
-            <button id="saveBudget" class="btn btn-primary">Speichern</button>
+            <input id="totalBudget" type="number" inputmode="decimal" placeholder="z. B. 1500.00" aria-label="Gesamtbudget" />
+            <button id="buttonSaveBudget" class="btn btn-primary" aria-label="Budget speichern">Speichern</button>
           </div>
 
           <div class="summary">
             <div class="card">
               <div class="muted">Verfügbar</div>
-              <div id="remaining" class="big">CHF 0.00</div>
+              <div id="remainingAmount" class="big">CHF 0.00</div>
             </div>
             <div class="card">
               <div class="muted">Bereits ausgegeben</div>
-              <div id="spent" class="big">CHF 0.00</div>
+              <div id="spentAmount" class="big">CHF 0.00</div>
             </div>
           </div>
         </div>
 
         <div class="panel">
           <div class="input-row tx-row">
-            <input id="txDesc" type="text" placeholder="Beschreibung (z.B. Kaffee)" />
-            <input id="txAmount" type="number" inputmode="decimal" placeholder="Betrag" />
-            <select id="txCategory" aria-label="Kategorie"></select>
-            <button id="addTx" class="btn btn-primary">Hinzufügen</button>
+            <input id="transactionDescription" type="text" placeholder="Beschreibung (z. B. Kaffee)" aria-label="Beschreibung" />
+            <input id="transactionAmount" type="number" inputmode="decimal" placeholder="Betrag" aria-label="Betrag" />
+            <select id="transactionCategory" aria-label="Kategorie" disabled>
+              <!-- Auswahl wird per JavaScript befüllt sobald Nutzer Kategorien angelegt hat -->
+            </select>
+            <button id="buttonAddTransaction" class="btn btn-primary" disabled>Hinzufügen</button>
           </div>
         </div>
 
         <div class="panel">
           <h3>Ausgaben nach Kategorien</h3>
-          <div class="chart-wrap">
-            <canvas id="categoryChart" aria-label="Kategorien Diagramm"></canvas>
-          </div>
+          <div class="chart-wrap"><canvas id="categoryChart" aria-label="Diagramm Ausgaben nach Kategorien"></canvas></div>
           <h3>Prozentuale Verteilung</h3>
-          <div class="chart-wrap small">
-            <canvas id="percentageChart" aria-label="Prozentdiagramm"></canvas>
-          </div>
+          <div class="chart-wrap small"><canvas id="percentageChart" aria-label="Prozentuale Verteilung"></canvas></div>
         </div>
       </section>
 
       <!-- TAB: Auflistung -->
-      <section id="tab-list" class="tab" aria-hidden="true">
+      <section id="tab-list" class="tab" aria-hidden="true" data-tab="list">
         <div class="panel">
           <h3>Alle Transaktionen</h3>
           <div class="input-row">
-            <input id="searchHistory" placeholder="Suchen..." />
-            <select id="filterCategory" aria-label="Filter Kategorie"><option value="">Alle Kategorien</option></select>
+            <input id="searchTransactions" placeholder="Suchen..." aria-label="Suchen" />
+            <select id="filterCategory" aria-label="Filter Kategorie">
+              <option value="">Alle Kategorien</option>
+            </select>
           </div>
-          <div id="allList" class="history-list" aria-live="polite"></div>
+          <div id="listAllTransactions" class="history-list" aria-live="polite"></div>
         </div>
       </section>
 
       <!-- TAB: Verlauf -->
-      <section id="tab-history" class="tab" aria-hidden="true">
+      <section id="tab-history" class="tab" aria-hidden="true" data-tab="history">
         <div class="panel">
           <h3>Verlauf</h3>
           <div id="historyList" class="history-list" aria-live="polite"></div>
           <div class="action-row">
-            <button id="exportWord" class="btn btn-primary">Verlauf (Word)</button>
-            <button id="exportCSV" class="btn btn-ghost">Verlauf (CSV)</button>
-            <button id="exportChart" class="btn btn-primary">Diagramm (PNG)</button>
-            <button id="resetHistory" class="btn btn-danger">Verlauf löschen</button>
+            <button id="buttonResetHistory" class="btn btn-danger">Verlauf löschen</button>
           </div>
         </div>
       </section>
 
       <!-- TAB: Gespart -->
-      <section id="tab-saved" class="tab" aria-hidden="true">
+      <section id="tab-saved" class="tab" aria-hidden="true" data-tab="saved">
         <div class="panel">
           <h3>Gespart (letzte Periode)</h3>
           <div id="savedList" class="history-list"></div>
@@ -120,92 +117,127 @@
       </section>
 
       <!-- TAB: Kategorien -->
-      <section id="tab-categories" class="tab" aria-hidden="true">
+      <section id="tab-categories" class="tab" aria-hidden="true" data-tab="categories">
         <div class="panel">
           <h3>Kategorien verwalten</h3>
           <div class="input-row">
-            <input id="newCategoryName" placeholder="Neue Kategorie" />
-            <button id="addCategory" class="btn btn-primary">Hinzufügen</button>
+            <input id="inputNewCategory" placeholder="Neue Kategorie (z. B. Miete)" aria-label="Neue Kategorie" />
+            <button id="buttonAddCategory" class="btn btn-primary">Hinzufügen</button>
           </div>
-          <div id="categoriesList" class="history-list"></div>
+          <div id="listCategories" class="history-list"></div>
         </div>
       </section>
 
-      <!-- TAB: Einstellungen -->
-      <section id="tab-settings" class="tab" aria-hidden="true">
+      <!-- TAB: Einstellungen (hier sind alle Exports) -->
+      <section id="tab-settings" class="tab" aria-hidden="true" data-tab="settings">
         <div class="panel">
           <h3>Profil</h3>
           <div class="input-row">
-            <input id="userName" placeholder="Dein Name" />
-            <button id="saveName" class="btn btn-primary">Speichern</button>
+            <input id="inputUserName" placeholder="Dein Vorname" aria-label="Dein Name" />
+            <button id="buttonSaveName" class="btn btn-primary">Speichern</button>
           </div>
         </div>
 
         <div class="panel">
           <h3>Farbschema</h3>
-          <div class="theme-grid" role="list">
-            <button class="theme-btn" data-theme-select="standard">Standard</button>
-            <button class="theme-btn" data-theme-select="warm">Warm</button>
-            <button class="theme-btn" data-theme-select="kalt">Kalt</button>
-            <button class="theme-btn" data-theme-select="fancy">Fancy</button>
-            <button class="theme-btn" data-theme-select="special">Special</button>
-            <button class="theme-btn" data-theme-select="girly">Girly</button>
+          <div class="theme-grid">
+            <button class="theme-btn" data-theme="standard">Standard</button>
+            <button class="theme-btn" data-theme="warm">Warm</button>
+            <button class="theme-btn" data-theme="kalt">Kalt</button>
+            <button class="theme-btn" data-theme="fancy">Fancy</button>
+            <button class="theme-btn" data-theme="special">Special</button>
+            <button class="theme-btn" data-theme="girly">Girly</button>
           </div>
         </div>
 
         <div class="panel">
           <h3>Zahltag</h3>
           <div class="input-row">
-            <input id="paydayInput" type="number" min="1" max="28" placeholder="Zahltag (1–28)" />
-            <button id="savePayday" class="btn btn-primary">Speichern</button>
+            <input id="inputPayday" type="number" min="1" max="28" placeholder="Zahltag 1–28" aria-label="Zahltag" />
+            <button id="buttonSavePayday" class="btn btn-primary">Speichern</button>
           </div>
         </div>
 
         <div class="panel">
-          <h3>Downloads</h3>
+          <h3>Exports</h3>
           <div class="input-row">
-            <button id="settingsExportWord" class="btn btn-primary">Verlauf (Word)</button>
-            <button id="settingsExportChart" class="btn btn-primary">Diagramm (PNG)</button>
+            <button id="buttonExportWord" class="btn btn-primary">Verlauf als Word (.doc)</button>
+            <button id="buttonExportCsv" class="btn btn-ghost">Verlauf als CSV</button>
+            <button id="buttonExportChart" class="btn btn-primary">Diagramm als PNG</button>
           </div>
         </div>
       </section>
+
+      <!-- TAB: Archiv (automatisch befüllt an Zahltagen) -->
+      <section id="tab-archive" class="tab" aria-hidden="true" data-tab="archive">
+        <div class="panel">
+          <h3>Archivierte Monate</h3>
+          <div id="archiveList" class="history-list"></div>
+        </div>
+      </section>
+
     </main>
 
-    <!-- BOTTOM NAV (App-like, große Hit-Zonen, safe-area aware) -->
+    <!-- BOTTOM NAV: groß für Touch, safe-area-aware -->
     <nav class="bottom-nav" role="navigation" aria-label="Hauptnavigation">
-      <button class="bottom-btn active" data-tab="budget">🏠<span>Budget</span></button>
-      <button class="bottom-btn" data-tab="list">📋<span>Auflistung</span></button>
-      <button class="bottom-btn" data-tab="history">📈<span>Verlauf</span></button>
-      <button class="bottom-btn" data-tab="saved">💾<span>Gespart</span></button>
-      <button class="bottom-btn" data-tab="categories">🗂️<span>Kategorien</span></button>
-      <button class="bottom-btn" data-tab="settings">⚙️<span>Einstellungen</span></button>
+      <button class="bottom-nav-btn active" data-target="budget">🏠<span>Budget</span></button>
+      <button class="bottom-nav-btn" data-target="list">📋<span>Auflistung</span></button>
+      <button class="bottom-nav-btn" data-target="history">📈<span>Verlauf</span></button>
+      <button class="bottom-nav-btn" data-target="saved">💾<span>Gespart</span></button>
+      <button class="bottom-nav-btn" data-target="categories">🗂️<span>Kategorien</span></button>
+      <button class="bottom-nav-btn" data-target="settings">⚙️<span>Einstellungen</span></button>
+      <button class="bottom-nav-btn" data-target="archive">📚<span>Archiv</span></button>
     </nav>
   </div>
 
-  <!-- WELCOME MODAL (first-run) -->
-  <div id="welcomeModal" class="modal" aria-hidden="true">
+  <!-- MODALS & POPUPS -->
+  <!-- Modal: Willkommens-Eingabe (Name) -->
+  <div id="modalWelcome" class="modal" aria-hidden="true">
     <div class="modal-card">
       <h3>Willkommen 👋</h3>
       <p>Wie dürfen wir dich nennen?</p>
-      <input id="welcomeName" placeholder="Dein Name" />
-      <p>Wann ist dein Zahltag? (1–28)</p>
-      <input id="welcomePayday" type="number" min="1" max="28" />
+      <input id="modalInputName" placeholder="Dein Name" aria-label="Willkommensname" />
       <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-        <button id="welcomeSave" class="btn btn-primary">Los geht's</button>
+        <button id="modalButtonSaveName" class="btn btn-primary">Weiter</button>
       </div>
     </div>
   </div>
 
-  <!-- INFO MODAL -->
-  <div id="infoModal" class="modal" aria-hidden="true">
+  <!-- Modal 2: Ich-Perspektive Info -->
+  <div id="modalIntro" class="modal" aria-hidden="true">
     <div class="modal-card">
-      <h3>Ich helfe dir.</h3>
-      <p>Ich begleite dich beim Planen deines Monatsbudgets — Schritt für Schritt.</p>
+      <h3>Ich begleite dich.</h3>
+      <p>Ich helfe dir, dein Monatsbudget zu planen, Ausgaben nach Kategorien einzutragen und zu sehen, wieviel du sparen kannst. Alles bleibt sicher in deinem Browser.</p>
       <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-        <button id="infoClose" class="btn btn-primary">Verstanden</button>
+        <button id="modalIntroOk" class="btn btn-primary">Weiter</button>
       </div>
     </div>
   </div>
 
+  <!-- Modal 3: Hinweis auf Kategorien erforderlich -->
+  <div id="modalCategoriesRequired" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <h3>Kategorien anlegen</h3>
+      <p>Bitte lege deine eigenen Kategorien an. Ohne Kategorien kannst du keine Ausgaben hinzufügen. Danach findest du sie im Reiter "Kategorien" und in der Auswahl beim Hinzufügen.</p>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+        <button id="modalCategoriesGo" class="btn btn-primary">Kategorien anlegen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Zahltag festlegen (1–28) -->
+  <div id="modalPayday" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <h3>Zahltag festlegen</h3>
+      <p>Wähle den Tag im Monat (1–28), an dem dein Budget archiviert werden soll und ein neuer Monat beginnt.</p>
+      <input id="modalPaydayInput" type="number" min="1" max="28" placeholder="Zahltag 1–28" />
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+        <button id="modalPaydaySave" class="btn btn-primary">Speichern</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast (kurze Hinweise) -->
+  <div id="toast" class="toast" aria-live="polite" role="status" hidden></div>
 </body>
 </html>
