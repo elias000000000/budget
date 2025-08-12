@@ -1,4 +1,4 @@
-/* ===== styles.css — mobile-first, safe-area aware ===== */
+/* ===== styles.css — mobile-first, safe-area aware, themes ===== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
 body {
@@ -10,8 +10,8 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* Default theme vars */
-:root{
+/* Default theme variables */
+:root {
   --bg: #f6fbff;
   --text: #0b1720;
   --glass: rgba(255,255,255,0.95);
@@ -20,12 +20,12 @@ body {
   --accent-contrast: #052000;
 }
 
-/* Themes */
-[data-theme="warm"]{ --accent-gradient: linear-gradient(135deg,#ff7e5f,#feb47b); --accent-contrast:#3b160f; }
-[data-theme="kalt"]{ --accent-gradient: linear-gradient(135deg,#00c6ff,#0072ff); --accent-contrast:#001e3a; }
-[data-theme="fancy"]{ --accent-gradient: linear-gradient(135deg,#29c07e,#36baf3); --accent-contrast:#042a1f; }
+/* Theme overrides */
+[data-theme="warm"]  { --accent-gradient: linear-gradient(135deg,#ff7e5f,#feb47b); --accent-contrast:#3b160f; }
+[data-theme="kalt"]  { --accent-gradient: linear-gradient(135deg,#00c6ff,#0072ff); --accent-contrast:#001e3a; }
+[data-theme="fancy"] { --accent-gradient: linear-gradient(135deg,#29c07e,#36baf3); --accent-contrast:#042a1f; }
 [data-theme="special"]{ --accent-gradient: linear-gradient(135deg,#9d50bb,#fcee58); --accent-contrast:#200033; }
-[data-theme="girly"]{ --accent-gradient: linear-gradient(135deg,#ff69b4,#8a2be2); --accent-contrast:#330033; }
+[data-theme="girly"] { --accent-gradient: linear-gradient(135deg,#ff69b4,#8a2be2); --accent-contrast:#330033; }
 
 /* App container */
 .app-root { max-width: 480px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; position: relative; }
@@ -36,7 +36,7 @@ body {
 .title { font-size: 18px; margin-top: 4px; }
 #budgetWord { background: var(--accent-gradient); -webkit-background-clip: text; color: transparent; font-weight:900; }
 
-/* Quote */
+/* Quote row */
 .quote { padding: 8px 14px; display:flex; gap:8px; align-items:flex-start; }
 .quote-mark { font-weight:900; color: var(--accent-contrast); }
 .quote-text { font-style: italic; color: rgba(6,22,36,0.65); font-size:14px; line-height:1.2; }
@@ -61,14 +61,12 @@ body {
 .chart-wrap { height: 220px; }
 .chart-wrap.small { height:160px; }
 
-/* List */
+/* History lists */
 .history-list { display:flex; flex-direction:column; gap:8px; margin-top:8px; }
 
 /* Theme grid */
 .theme-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; }
-.theme-btn { padding:10px; border-radius:10px; border:0; font-weight:800; cursor:pointer; text-align:center; }
-
-/* Buttons visual for each theme (preview) */
+.theme-btn { padding:10px; border-radius:10px; border:0; font-weight:800; cursor:pointer; }
 .theme-btn[data-theme-select="standard"]{ background: linear-gradient(135deg,#ffeb3b,#4caf50); color:#082000; }
 .theme-btn[data-theme-select="warm"]{ background: linear-gradient(135deg,#ff7e5f,#feb47b); color:#3b160f; }
 .theme-btn[data-theme-select="kalt"]{ background: linear-gradient(135deg,#00c6ff,#0072ff); color:#001e3a; }
@@ -79,11 +77,11 @@ body {
 /* Action row */
 .action-row { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
 
-/* Bottom nav fixed (big hit targets) */
+/* Bottom nav */
 .bottom-nav {
   position: fixed; left: 0; right: 0; bottom: 0;
   display:flex; justify-content:space-around; align-items:center;
-  padding: calc(env(safe-area-inset-bottom) + 8px) 12px  calc(env(safe-area-inset-bottom) + 14px);
+  padding: calc(env(safe-area-inset-bottom) + 8px) 12px calc(env(safe-area-inset-bottom) + 12px);
   background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
   border-top:1px solid var(--glass-border);
   box-shadow: 0 -8px 30px rgba(2,6,23,0.06);
@@ -97,8 +95,8 @@ body {
 .modal[aria-hidden="false"]{ display:flex; }
 .modal-card { background:#fff; padding:16px; border-radius:12px; width:92%; max-width:420px; }
 
-/* Responsive tiny screens */
+/* Small screens */
 @media (max-width:420px){
-  .quote-text{ font-size:13px }
-  .chart-wrap { height: 180px }
+  .quote-text { font-size:13px; }
+  .chart-wrap { height: 180px; }
 }
