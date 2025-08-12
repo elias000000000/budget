@@ -1,14 +1,3 @@
-/**
- * app.js
- * Vollständige, ausführliche, mobile-optimierte Budget-App
- * - Ohne externe Build-Tools, nur reines JS + Chart.js
- * - Saubere lokale Speicherung in localStorage
- *
- * Hinweise:
- * - Chart.js wird via CDN geladen (index.html). app.js ist "deferred".
- * - Falls Chart.js nicht verfügbar ist, werden Diagramm-Funktionen still ausgeführt (mit console.warn).
- */
-
 /* ----------------------------- Helferfunktionen ----------------------------- */
 const $ = selector => document.querySelector(selector);
 const $$ = selector => Array.from(document.querySelectorAll(selector));
