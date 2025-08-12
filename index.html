@@ -5,41 +5,48 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Budget Planer</title>
 
-  <!-- Schrift -->
+  <!-- Schriftart Nunito -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <!-- Styles & Scripts -->
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Chart.js (deferred) -->
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- App (deferred so DOM + Chart.js sind geladen) -->
   <script defer src="app.js"></script>
 </head>
 <body>
   <div id="app" class="app-root" role="application" aria-label="Budget Planer">
 
-    <!-- Top bar (compact) -->
+    <!-- TOP BAR -->
     <header class="topbar">
       <div class="top-left">
         <div id="greeting" class="muted">Hallo —</div>
-        <div id="monthRange" class="title"><span id="budgetWord">Budget</span> <span id="monthLabel">für —</span></div>
+        <div id="monthRange" class="title">
+          <span id="budgetWord">Budget</span> <span id="monthLabel">für —</span>
+        </div>
       </div>
       <div class="top-right">
         <div id="currentDate" class="muted small">—</div>
       </div>
     </header>
 
-    <!-- Quote (theme-colored quotes) -->
+    <!-- DAILY QUOTE -->
     <div class="quote" aria-live="polite">
       <span id="quoteOpen" class="quote-mark">“</span>
       <span id="dailyQuote" class="quote-text">Spar heute, lach morgen.</span>
       <span id="quoteClose" class="quote-mark">”</span>
     </div>
 
-    <!-- Main content with tabs -->
+    <!-- MAIN CONTENT (Tabs) -->
     <main class="main">
+
       <!-- TAB: Budget -->
       <section id="tab-budget" class="tab active" aria-hidden="false">
         <div class="panel">
-          <label class="muted" for="totalBudget">Gesamtbudget (CHF)</label>
+          <label for="totalBudget" class="muted">Gesamtbudget (CHF)</label>
           <div class="input-row">
             <input id="totalBudget" type="number" inputmode="decimal" placeholder="z.B. 1500.00" />
             <button id="saveBudget" class="btn btn-primary">Speichern</button>
@@ -68,9 +75,13 @@
 
         <div class="panel">
           <h3>Ausgaben nach Kategorien</h3>
-          <div class="chart-wrap"><canvas id="categoryChart" aria-label="Kategorien Diagramm"></canvas></div>
+          <div class="chart-wrap">
+            <canvas id="categoryChart" aria-label="Kategorien Diagramm"></canvas>
+          </div>
           <h3>Prozentuale Verteilung</h3>
-          <div class="chart-wrap small"><canvas id="percentageChart" aria-label="Prozentdiagramm"></canvas></div>
+          <div class="chart-wrap small">
+            <canvas id="percentageChart" aria-label="Prozentdiagramm"></canvas>
+          </div>
         </div>
       </section>
 
@@ -160,17 +171,18 @@
       </section>
     </main>
 
-    <!-- Bottom navigation (app-like, large hit areas) -->
+    <!-- BOTTOM NAV (App-like, große Hit-Zonen, safe-area aware) -->
     <nav class="bottom-nav" role="navigation" aria-label="Hauptnavigation">
       <button class="bottom-btn active" data-tab="budget">🏠<span>Budget</span></button>
       <button class="bottom-btn" data-tab="list">📋<span>Auflistung</span></button>
       <button class="bottom-btn" data-tab="history">📈<span>Verlauf</span></button>
       <button class="bottom-btn" data-tab="saved">💾<span>Gespart</span></button>
+      <button class="bottom-btn" data-tab="categories">🗂️<span>Kategorien</span></button>
       <button class="bottom-btn" data-tab="settings">⚙️<span>Einstellungen</span></button>
     </nav>
   </div>
 
-  <!-- Welcome modal (first run) -->
+  <!-- WELCOME MODAL (first-run) -->
   <div id="welcomeModal" class="modal" aria-hidden="true">
     <div class="modal-card">
       <h3>Willkommen 👋</h3>
@@ -184,7 +196,7 @@
     </div>
   </div>
 
-  <!-- Info modal -->
+  <!-- INFO MODAL -->
   <div id="infoModal" class="modal" aria-hidden="true">
     <div class="modal-card">
       <h3>Ich helfe dir.</h3>
